@@ -1,0 +1,218 @@
+{
+  "name": "zede-jetbrains-helper",
+  "displayName": "jetbrains-helper",
+  "description": "Some utilities for making VSCode more like JetBrains IDE",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.83.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "main": "./dist/extension.js",
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "contributes": {
+    "commands": [
+      {
+        "command": "zede-jetbrains-helper.helloWorld",
+        "title": "Hello World"
+      },
+
+      {
+        "command": "zede-jetbrains-helper.reveal",
+        "title": "%zede-jetbrains-helper.title%",
+        "icon": {
+          "dark": "./res/reveal-dark.svg",
+          "light": "./res/reveal-light.svg"
+        }
+      },
+
+      {
+        "command": "zede-jetbrains-helper.rainbowTags",
+        "title": "Rainbow Tags"
+      }
+    ],
+    
+    "keybindings": [
+      {
+        "when": "editorIsOpen",
+        "command": "zede-jetbrains-helper.reveal",
+        "key": "ctrl+alt+u",
+        "mac": "cmd+alt+u"
+      }
+    ],
+    
+    "menus": {
+      "view/title": [
+        {
+          "command": "zede-jetbrains-helper.reveal",
+          "when": "view == workbench.explorer.fileView && editorIsOpen",
+          "group": "navigation"
+        }
+      ]
+    },
+
+    "configuration": {
+      "properties": {
+        "zede-jetbrains-helper.mark-as": {
+          "type": "array",
+          "default": [],
+          "items": {
+            "type": "object",
+            "properties": {
+              "path": {
+                "type": "string"
+              },
+              "color": {
+                "type": "string"
+              },
+              "symbol": {
+                "type": "string"
+              },
+              "tooltip": {
+                "type": "string"
+              }
+            }
+          },
+          "description": "Array of folder path and color pairs to be colored."
+        },
+
+        "zede-jetbrains-helper.colors": {
+          "type": "array",
+          "default": [
+            "#E8BA36",
+            "#54A857",
+            "#359FF4",
+            "#6E7ED9",
+            "#179387"
+          ],
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "description": "An array of HEX color codes for the tag highlighting. Unlimited possibilities.",
+          "scope": "window"
+        },
+        "zede-jetbrains-helper.highlightType": {
+          "type": "string",
+          "default": "color",
+          "enum": [
+            "color",
+            "background-color",
+            "border"
+          ],
+          "description": "Highlighting graphical style of choice. Default \"color\"",
+          "scope": "window"
+        },
+        "zede-jetbrains-helper.allowEverywhere": {
+          "type": "boolean",
+          "default": false,
+          "description": "Determines if the highting is supported only in XML-typed languages or in all documents with all languages. Allowing this might lead to unforseen circumstances with anything resembling XML/HTML tag structures, eg: TS types, eg: \"const stuff: <CustomType>\"",
+          "scope": "window"
+        },
+        "zede-jetbrains-helper.supportedLanguages": {
+          "type": "array",
+          "default": [
+            "html",
+            "php",
+            "twig",
+            "blade",
+            "smarty",
+            "svg",
+            "xml",
+            "vue",
+            "md"
+          ],
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "uniqueItems": true,
+          "description": "Supported language IDs.",
+          "scope": "window"
+        },
+        "zede-jetbrains-helper.denylistTags": {
+          "type": "array",
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true,
+          "description": "Excluded tags.",
+          "scope": "window"
+        }
+      }
+    },
+
+    "themes": [
+      {
+        "label": "JetBrains Darkula",
+        "uiTheme": "vs-dark",
+        "path": "./theme/darkula.tmTheme.json"
+      }
+    ],
+
+    "colors": [
+      {
+        "id": "zedeJetbrainsHelper.markAs.exclude",
+        "description": "Color for error message in the status bar.",
+        "defaults": {
+          "dark": "#728504",
+          "light": "#728504",
+          "highContrast": "#010203",
+          "highContrastLight": "#feedc3"
+        }
+      },
+      {
+        "id": "zedeJetbrainsHelper.markAs.source",
+        "description": "Color for error message in the status bar.",
+        "defaults": {
+          "dark": "#728504",
+          "light": "#728504",
+          "highContrast": "#010203",
+          "highContrastLight": "#feedc3"
+        }
+      },
+      {
+        "id": "zedeJetbrainsHelper.markAs.test",
+        "description": "Color for error message in the status bar.",
+        "defaults": {
+          "dark": "#728504",
+          "light": "#728504",
+          "highContrast": "#010203",
+          "highContrastLight": "#feedc3"
+        }
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run package",
+    "compile": "webpack",
+    "watch": "webpack --watch",
+    "package": "webpack --mode production --devtool hidden-source-map",
+    "compile-tests": "tsc -p . --outDir out",
+    "watch-tests": "tsc -p . -w --outDir out",
+    "pretest": "npm run compile-tests && npm run compile && npm run lint",
+    "lint": "eslint src --ext ts",
+    "test": "node ./out/test/runTest.js",
+    "build": "vsce package",
+    "publish": "vsce publish"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.83.0",
+    "@types/mocha": "^10.0.2",
+    "@types/node": "18.x",
+    "@typescript-eslint/eslint-plugin": "^6.7.3",
+    "@typescript-eslint/parser": "^6.7.3",
+    "eslint": "^8.50.0",
+    "glob": "^10.3.3",
+    "mocha": "^10.2.0",
+    "typescript": "^5.2.2",
+    "ts-loader": "^9.4.4",
+    "webpack": "^5.88.2",
+    "webpack-cli": "^5.1.4",
+    "@vscode/test-electron": "^2.3.4"
+  }
+}
