@@ -13,6 +13,10 @@
   "activationEvents": [
     "onStartupFinished"
   ],
+  "repository": {
+    "type": "github",
+    "url": "https://github.com/Sdju/zede-jetbrains-helper.git"
+  },
   "contributes": {
     "commands": [
       {

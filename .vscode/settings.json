@@ -12,5 +12,6 @@
     "typescript.tsc.autoDetect": "off",
     "cSpell.words": [
         "divs"
-    ]
+    ],
+    "i18n-ally.localesPaths": []
 }
